@@ -73,15 +73,17 @@ class Alumno(var nombre : Int, var tiempoLlegada : Long){
 class Profesor (var Nombre: String, var nombreAlumno: Int){
 
     fun corregirExamen(coroutineScope: CoroutineScope){
-        val listaNotas = mutableListOf<Int>()
-        val nota = (0..10).random()
-        listaNotas.add(nota)
+        coroutineScope.launch {
+            val listaNotas = mutableListOf<Int>()
+            val nota = (0..10).random()
+            listaNotas.add(nota)
 
-        val listaOrdenada = listaNotas.sortedDescending()
+            val listaOrdenada = listaNotas.sortedDescending()
 
-       listaOrdenada.forEach {
-           println ("El Alumno $nombreAlumno ha sacado $it")
-       }
+            listaOrdenada.forEach {
+                println ("El Alumno $nombreAlumno ha sacado $it")
+            }
+        }
     }
 }
 
