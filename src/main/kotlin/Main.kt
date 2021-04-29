@@ -3,10 +3,11 @@ import kotlin.random.Random
 
 fun main(){
 
-    val profesor = Profesor("Profesor")
+
 
     val listaAlumnos = mutableListOf<Alumno>()
     val listaExamenes = mutableListOf<Examen>()
+
 
     println("Los alumnos salen de su casa")
 
@@ -27,7 +28,9 @@ fun main(){
 
     println("Todos estan ya en clase")
 
-    println("El profesor empieza a repartir los examenes")
+    Thread.sleep(5000)
+
+    println("\nEl profesor empieza a repartir los examenes")
 
     runBlocking {
             repeat(30){
@@ -37,11 +40,25 @@ fun main(){
             }
     }
 
+    Thread.sleep(5000)
+
     println("Ya tengo los ${listaExamenes.size} exámenes, hemos terminado")
+
+    Thread.sleep(5000)
+
+    println("\nEl profesor va a corregir los examenes")
+
+    Thread.sleep(5000)
+
+    repeat(30) {
+        val profesor = Profesor("Profesor", nombreAlumno = it + 1)
+        profesor.corregirExamen()
+    }
+
 }
 
 
-open class Alumno(var nombre : Int, var tiempoLlegada : Long){
+class Alumno(var nombre : Int, var tiempoLlegada : Long){
 
     //SOLUCION 1
     fun haLlegado(coroutineScope: CoroutineScope) {
@@ -65,14 +82,23 @@ open class Alumno(var nombre : Int, var tiempoLlegada : Long){
     }
 }
 
-class Profesor(var Nombre: String){
+class Profesor (var Nombre: String, var nombreAlumno: Int){
+
     fun corregirExamen(){
+        val listaNotas = mutableListOf<Int>()
+        val nota = (0..10).random()
+        listaNotas.add(nota)
 
+        val listaOrdenada = listaNotas.sortedDescending()
+
+       listaOrdenada.forEach {
+           println ("El Alumno $nombreAlumno ha sacado $it")
+       }
     }
-
 }
 
 class Examen(var nombreAlumno : Int){
+
     fun hacer( tiempoTardado : Long, coroutineScope: CoroutineScope){
         coroutineScope.launch {
             delay(tiempoTardado)
