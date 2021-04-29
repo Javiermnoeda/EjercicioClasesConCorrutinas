@@ -50,10 +50,15 @@ fun main(){
 
     Thread.sleep(5000)
 
-    repeat(30) {
-        val profesor = Profesor("Profesor", nombreAlumno = it + 1)
-        profesor.corregirExamen()
+    runBlocking {
+        this.launch {
+            repeat(30) {
+                val profesor = Profesor("Profesor", nombreAlumno = it + 1)
+                profesor.corregirExamen(this)
+            }
+        }
     }
+
 
 }
 
@@ -84,7 +89,7 @@ class Alumno(var nombre : Int, var tiempoLlegada : Long){
 
 class Profesor (var Nombre: String, var nombreAlumno: Int){
 
-    fun corregirExamen(){
+    fun corregirExamen(coroutineScope: CoroutineScope){
         val listaNotas = mutableListOf<Int>()
         val nota = (0..10).random()
         listaNotas.add(nota)
@@ -106,19 +111,3 @@ class Examen(var nombreAlumno : Int){
         }
     }
 }
-
-/*
-Vamos a imaginar el siguiente contexto, tenemos un profesor con 30 alumnos.
-
-Los alumnos son de una clase Alumno. Los alumnos tienen 2 métodos, decir "he llegado" y "hacer el examen". Hecho
-
-Cada alumno tarda de 1 a 6 segundos en llegar (Número aleatorio). Cuando llegan dicen "Alumno X ha llegado". Hecho
-
-Cuando todos han llegado, el profesor reparte los exámenes. Hecho
-
-Los exámenes son otra clase que tiene un método que se llama hacer y que lleva un número aleatorio de 1 a 4 segundos en completarse. Hecho
-
-Cuando el alumno ha completado el examen, dice "El Alumno X ha terminado el examen".
-
-Cuando todos los alumnos han terminado y el profesor ha recibido todos los exámenes y da por concluido el examen.
- */
