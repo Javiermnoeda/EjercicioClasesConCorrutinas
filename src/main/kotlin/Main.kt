@@ -91,6 +91,7 @@ class Examen(var nombreAlumno : Int){
         coroutineScope.launch {
             delay(tiempoTardado)
             println("El Alumno $nombreAlumno ha terminado el examen")
+
         }
     }
 }
