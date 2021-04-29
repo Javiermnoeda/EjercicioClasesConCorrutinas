@@ -30,13 +30,11 @@ fun main(){
     println("El profesor empieza a repartir los examenes")
 
     runBlocking {
-        this.launch {
             repeat(30){
                 val examen = Examen(it+1)
                 listaExamenes.add(examen)
-                examen.hacer(Random.nextLong(1,4)*1000)
+                examen.hacer(Random.nextLong(1,4)*1000, this)
             }
-        }
     }
 
     println("Ya tengo los ${listaExamenes.size} exámenes, hemos terminado")
@@ -75,8 +73,8 @@ class Profesor(var Nombre: String){
 }
 
 class Examen(var nombreAlumno : Int){
-    fun hacer( tiempoTardado : Long ){
-        GlobalScope.launch {
+    fun hacer( tiempoTardado : Long, coroutineScope: CoroutineScope){
+        coroutineScope.launch {
             delay(tiempoTardado)
             println("El Alumno $nombreAlumno ha terminado el examen")
         }
