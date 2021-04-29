@@ -12,23 +12,14 @@ fun main(){
     println("Los alumnos salen de su casa")
 
     runBlocking {
-            repeat (30){
-                val alumno = Alumno(nombre=it+1,Random.nextLong(1,6)*1000)
-                listaAlumnos.add(alumno)
-                alumno.haLlegado(this)
-                /*
-                this.launch {
-                    alumno.haLlegado2()
-                }
-
-                 */
-            }
-
+        repeat (30){
+            val alumno = Alumno(nombre=it+1,Random.nextLong(1,6)*1000)
+            listaAlumnos.add(alumno)
+            alumno.haLlegado(this)
+        }
     }
 
     println("Todos estan ya en clase")
-
-    Thread.sleep(5000)
 
     println("\nEl profesor empieza a repartir los examenes")
 
@@ -40,15 +31,9 @@ fun main(){
             }
     }
 
-    Thread.sleep(5000)
-
     println("Ya tengo los ${listaExamenes.size} exámenes, hemos terminado")
 
-    Thread.sleep(5000)
-
     println("\nEl profesor va a corregir los examenes")
-
-    Thread.sleep(5000)
 
     runBlocking {
         this.launch {
