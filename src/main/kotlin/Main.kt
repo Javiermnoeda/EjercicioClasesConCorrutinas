@@ -24,11 +24,11 @@ fun main(){
     println("\nEl profesor empieza a repartir los examenes")
 
     runBlocking {
-            repeat(30){
-                val examen = Examen(it+1)
-                listaExamenes.add(examen)
-                examen.hacer(Random.nextLong(1,4)*1000, this)
-            }
+        repeat(30){
+            val examen = Examen(it+1)
+            listaExamenes.add(examen)
+            examen.hacer(Random.nextLong(1,4)*1000, this)
+        }
     }
 
     println("Ya tengo los ${listaExamenes.size} exámenes, hemos terminado")
@@ -43,8 +43,6 @@ fun main(){
             }
         }
     }
-
-
 }
 
 
