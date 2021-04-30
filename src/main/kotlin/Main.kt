@@ -58,8 +58,7 @@ class Alumno(var nombre : Int, var tiempoLlegada : Long){
             delay(tiempoLlegada)
             println("Alumno $nombre ha llegado")
     }
-
-     */
+    */
 
     fun hacerExamen(examen: Examen,coroutineScope: CoroutineScope){
         examen.hacer(Random.nextLong(1,4)*1000,coroutineScope)
