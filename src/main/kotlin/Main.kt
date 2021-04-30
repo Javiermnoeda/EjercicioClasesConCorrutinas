@@ -1,12 +1,13 @@
+import com.sun.javaws.Globals
 import kotlinx.coroutines.*
+import javax.xml.bind.JAXBElement
 import kotlin.random.Random
+
+val listaAlumnos = mutableListOf<Alumno>()
+val listaExamenes = mutableListOf<Examen>()
 
 fun main(){
 
-
-
-    val listaAlumnos = mutableListOf<Alumno>()
-    val listaExamenes = mutableListOf<Examen>()
 
 
     println("Los alumnos salen de su casa")
@@ -21,18 +22,12 @@ fun main(){
 
     println("Todos estan ya en clase")
 
-    println("\nEl profesor empieza a repartir los examenes")
-
-    runBlocking {
-        repeat(30){
-            val examen = Examen(it+1)
-            listaExamenes.add(examen)
-            examen.hacer(Random.nextLong(1,4)*1000, this)
-        }
-    }
+    val profesor = Profesor("Profesor")
+    profesor.repartirExamen(listaAlumnos)
 
     println("Ya tengo los ${listaExamenes.size} exámenes, hemos terminado")
 
+    /*
     println("\nEl profesor va a corregir los examenes")
 
     runBlocking {
@@ -43,6 +38,7 @@ fun main(){
             }
         }
     }
+    */
 }
 
 
@@ -65,26 +61,41 @@ class Alumno(var nombre : Int, var tiempoLlegada : Long){
 
      */
 
-    fun hacerExamen(){
-        println(" Soy $nombre voy a hacer el examen")
+    fun hacerExamen(examen: Examen,coroutineScope: CoroutineScope){
+        examen.hacer(Random.nextLong(1,4)*1000,coroutineScope)
     }
 }
 
-class Profesor (var Nombre: String, var nombreAlumno: Int){
+class Profesor (var Nombre: String){
 
+    fun repartirExamen(listaAlumnos: List<Alumno>){
+        println("\nEl profesor empieza a repartir los examenes")
+        runBlocking {
+            listaAlumnos.forEach{
+                val examen = Examen(it.nombre)
+                listaExamenes.add(examen)
+                it.hacerExamen(examen,this)
+            }
+        }
+
+    }
+
+    /*
     fun corregirExamen(coroutineScope: CoroutineScope){
         coroutineScope.launch {
             val listaNotas = mutableListOf<Int>()
             val nota = (0..10).random()
             listaNotas.add(nota)
 
-            val listaOrdenada = listaNotas.sortedDescending()
+            listaNotas.filter {
+                listaNotas.forEach {
 
-            listaOrdenada.forEach {
-                println ("El Alumno $nombreAlumno ha sacado $it")
+                }
+                true
             }
         }
     }
+    */
 }
 
 class Examen(var nombreAlumno : Int){
