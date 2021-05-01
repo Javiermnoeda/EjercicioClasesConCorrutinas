@@ -1,4 +1,3 @@
-import com.sun.javaws.Globals
 import kotlinx.coroutines.*
 import javax.xml.bind.JAXBElement
 import kotlin.random.Random
@@ -27,18 +26,10 @@ fun main(){
 
     println("Ya tengo los ${listaExamenes.size} exámenes, hemos terminado")
 
-    /*
     println("\nEl profesor va a corregir los examenes")
+    profesor.corregirExamen(listaExamenes)
 
-    runBlocking {
-        this.launch {
-            repeat(30) {
-                val profesor = Profesor("Profesor", nombreAlumno = it + 1)
-                profesor.corregirExamen(this)
-            }
-        }
-    }
-    */
+
 }
 
 
@@ -71,7 +62,7 @@ class Profesor (var Nombre: String){
         println("\nEl profesor empieza a repartir los examenes")
         runBlocking {
             listaAlumnos.forEach{
-                val examen = Examen(it.nombre)
+                val examen = Examen(it.nombre,Random.nextInt(0,10))
                 listaExamenes.add(examen)
                 it.hacerExamen(examen,this)
             }
@@ -79,25 +70,22 @@ class Profesor (var Nombre: String){
 
     }
 
-    /*
-    fun corregirExamen(coroutineScope: CoroutineScope){
-        coroutineScope.launch {
-            val listaNotas = mutableListOf<Int>()
-            val nota = (0..10).random()
-            listaNotas.add(nota)
+    fun corregirExamen(listaExamenes: List<Examen>){
+        listaExamenes.forEach {
+            it.nota = Random.nextInt(0,10)
+        }
 
-            listaNotas.filter {
-                listaNotas.forEach {
-
-                }
-                true
-            }
+        //Ordenamos la lista de menor a mayor
+        listaExamenes.sortedBy {
+            it.nota
+        }
+        listaExamenes.forEach {
+            println("Alumno ${it.nombreAlumno} ha sacado ${it.nota}")
         }
     }
-    */
 }
 
-class Examen(var nombreAlumno : Int){
+class Examen(var nombreAlumno : Int, var nota : Int){
 
     fun hacer( tiempoTardado : Long, coroutineScope: CoroutineScope){
         coroutineScope.launch {
