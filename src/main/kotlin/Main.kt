@@ -7,8 +7,6 @@ val listaExamenes = mutableListOf<Examen>()
 
 fun main(){
 
-
-
     println("Los alumnos salen de su casa")
 
     runBlocking {
