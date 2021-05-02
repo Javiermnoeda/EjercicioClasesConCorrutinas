@@ -70,7 +70,7 @@ class Profesor (var Nombre: String){
     fun corregirExamen(listaExamenes: List<Examen>){
 
         listaExamenes.forEach {
-            it.nota = Random.nextInt(0, 10)
+            it.nota = Random.nextInt(0, 11)
         }
 
         val prueba = listaExamenes.sortedByDescending {
