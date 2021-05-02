@@ -65,20 +65,21 @@ class Profesor (var Nombre: String){
                 it.hacerExamen(examen,this)
             }
         }
-
     }
 
     fun corregirExamen(listaExamenes: List<Examen>){
+
         listaExamenes.forEach {
-            it.nota = Random.nextInt(0,10)
+            it.nota = Random.nextInt(0, 10)
         }
 
-        //Ordenamos la lista de menor a mayor
-        listaExamenes.sortedBy {
+        val prueba = listaExamenes.sortedByDescending {
             it.nota
         }
-        listaExamenes.forEach {
+
+        prueba.forEach {
             println("Alumno ${it.nombreAlumno} ha sacado ${it.nota}")
+
         }
     }
 }
