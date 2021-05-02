@@ -79,7 +79,6 @@ class Profesor (var Nombre: String){
 
         prueba.forEach {
             println("Alumno ${it.nombreAlumno} ha sacado ${it.nota}")
-
         }
     }
 }
