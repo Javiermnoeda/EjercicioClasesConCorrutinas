@@ -1,5 +1,4 @@
 import kotlinx.coroutines.*
-import javax.xml.bind.JAXBElement
 import kotlin.random.Random
 
 val listaAlumnos = mutableListOf<Alumno>()
@@ -19,15 +18,13 @@ fun main(){
 
     println("Todos estan ya en clase")
 
-    val profesor = Profesor("Profesor")
+    val profesor = Profesor()
     profesor.repartirExamen(listaAlumnos)
 
     println("Ya tengo los ${listaExamenes.size} exámenes, hemos terminado")
 
     println("\nEl profesor va a corregir los examenes")
     profesor.corregirExamen(listaExamenes)
-
-
 }
 
 
@@ -54,7 +51,7 @@ class Alumno(var nombre : Int, var tiempoLlegada : Long){
     }
 }
 
-class Profesor (var Nombre: String){
+class Profesor (){
 
     fun repartirExamen(listaAlumnos: List<Alumno>){
         println("\nEl profesor empieza a repartir los examenes")
@@ -67,17 +64,17 @@ class Profesor (var Nombre: String){
         }
     }
 
-    fun corregirExamen(listaExamenes: List<Examen>){
+    fun corregirExamen(listaExamenes: MutableList<Examen>){
 
         listaExamenes.forEach {
             it.nota = Random.nextInt(0, 11)
         }
 
-        val prueba = listaExamenes.sortedByDescending {
+        listaExamenes.sortByDescending {
             it.nota
         }
 
-        prueba.forEach {
+        listaExamenes.forEach {
             println("Alumno ${it.nombreAlumno} ha sacado ${it.nota}")
         }
     }
